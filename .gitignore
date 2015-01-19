@@ -6,6 +6,7 @@ Obj/
 UnityGenerated/
 Library/
 Assets/Stores/
+Assets/UnityTestTools*
 # Assets/Stores/NGUI/Examples
 # Assets/Stores/NGUI/Resources
 
