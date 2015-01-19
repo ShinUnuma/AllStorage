@@ -5,25 +5,53 @@
 		_HogeTex ( "Base", 2D ) = "white" {}
 	}
 
-    SubShader
-    {
-		CGPROGRAM
-
-		#pragma surface surf Lambert
-
-		sampler _HogeTex;
-
-		struct Input
+	SubShader
+	{
+		Tags
 		{
-			float2 uv_HogeTex;
-			float4 vtxColor : COLOR;
-		};
+			"Queue" = "Transparent"
+		}
+		// First Pass
+        Cull Front
 
-		void surf( Input IN, inout SurfaceOutput o )
-		{
-			o.Albedo = tex2D( _HogeTex, IN.uv_HogeTex ).rgb;
+        CGPROGRAM
+        #pragma surface surf Lambert alpha 
+
+        sampler _HogeTex;
+
+        struct Input {
+            float2 uv_HogeTex;
+            float4 vtxColor : COLOR;
+        };
+
+        void surf( Input IN, inout SurfaceOutput o ) {
+            half4 color = tex2D( _HogeTex, IN.uv_HogeTex );
+            o.Albedo = color.rgb;
+            o.Alpha = color.a;
         }
 
-		ENDCG
+        ENDCG
+
+
+        // Second Pass
+        Cull Back
+
+        CGPROGRAM
+        #pragma surface surf Lambert alpha 
+
+        sampler _HogeTex;
+
+        struct Input {
+            float2 uv_HogeTex;
+            float4 vtxColor : COLOR;
+        };
+
+        void surf( Input IN, inout SurfaceOutput o ) {
+            half4 color = tex2D( _HogeTex, IN.uv_HogeTex );
+            o.Albedo = color.rgb;
+            o.Alpha = color.a;
+        }
+
+        ENDCG 
     }
 }
